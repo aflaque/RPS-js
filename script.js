@@ -2,20 +2,35 @@ let valid = ["rock", "paper", "sissor"];
 let human_score = 0;
 let comp_score = 0;
 
-const button = document.querySelector("#but1");
 const par = document.querySelector(".para");
+const won = document.querySelector(".won");
 
 function getComputerChoice() {
     return valid[Math.floor(Math.random() * 3)];
 }
 
-function getHumanChoice() {
-    let sign = prompt("enter").toLowerCase();
-    if (!valid.includes(sign)){
-        par.innerText = "enter a valid value";
-        return;
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const sissor = document.querySelector("#sissor");
+rock.addEventListener("click", () => {
+    handleClick("rock");
+});
+paper.addEventListener("click", () => {
+    handleClick("paper");
+});
+sissor.addEventListener("click", () => {
+    handleClick("sissor");
+});
+
+function handleClick(player_selection) {
+    if (human_score >= 5 || comp_score >= 5) {
+        won.innerText = `GAME OVER ${human_score >= 5 ? "player" : "computer"} has won`;
+        return ;
     }
-    return sign;
+    playRound(player_selection, getComputerChoice());
+    console.log(human_score, comp_score);
+    par.innerText = `Human Score: ${human_score} Computer Score: ${comp_score} `;
+
 }
 
 function playRound(humanChoice, computerChoice) {
@@ -53,12 +68,4 @@ function playRound(humanChoice, computerChoice) {
 }
 
 
-
-button.addEventListener("click", () =>{
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-        console.log(human_score, comp_score);
-        par.innerText = `Human Score: ${human_score} Computer Score: ${comp_score} `;
-    }
-});
 
